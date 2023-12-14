@@ -8,6 +8,9 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 azure-functions = "^1.17.0"
+azure-communication-email = "^1.0.0"
+azure-mgmt-communication = "^2.0.0"
+azure-identity = "^1.15.0"
 
 
 [build-system]
