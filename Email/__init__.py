@@ -3,16 +3,18 @@ import datetime
 from typing import Any
 
 from azure.communication.email import EmailClient
+from azure.core.credentials import AzureKeyCredential
 
 internal_email_address = os.getenv('INTERNAL_EMAIL_ADDRESS')
 system_email_address = os.getenv('SYSTEM_EMAIL_ADDRESS')
-email_connection_string = os.getenv('EMAIL_CONNECTION_STRING')
+email_communication_endpoint = os.getenv('AZURE_COMMUNICATIONS_ENDPOINT')
+email_communication_key = os.getenv('AZURE_COMMUNICATIONS_KEY')
 
 
 def _send_email(email: dict[str, Any]) -> None:
     """Sends an email using Azure Communication Services"""
     try:
-        client = EmailClient.from_connection_string(email_connection_string)
+        client = EmailClient(email_communication_endpoint, AzureKeyCredential(email_communication_key))
         poller = client.begin_send(email)
         result = poller.result()
     except Exception as ex:
