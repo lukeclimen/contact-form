@@ -18,7 +18,6 @@ async def _send_email(email: dict[str, Any]) -> None:
         print(ex)
 
 
-
 def _create_internal_email(name: str, email: str, message: str) -> dict[str, any]:
     """Crafts the email copy for the internally-sent email"""
     
