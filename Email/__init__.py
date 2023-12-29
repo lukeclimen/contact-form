@@ -4,18 +4,19 @@ from typing import Any
 
 from azure.communication.email import EmailClient
 
-internal_email_address = os.environ['INTERNAL_EMAIL_ADDRESS']
-system_email_address = os.environ['SYSTEM_EMAIL_ADDRESS']
-email_connection_string = os.environ['EMAIL_CONNECTION_STRING']
+internal_email_address = os.getenv('INTERNAL_EMAIL_ADDRESS')
+system_email_address = os.getenv('SYSTEM_EMAIL_ADDRESS')
+email_connection_string = os.getenv('EMAIL_CONNECTION_STRING')
 
 
-async def _send_email(email: dict[str, Any]) -> None:
+def _send_email(email: dict[str, Any]) -> None:
     """Sends an email using Azure Communication Services"""
     try:
         client = EmailClient.from_connection_string(email_connection_string)
-        await client.begin_send(email)
+        poller = client.begin_send(email)
+        result = poller.result()
     except Exception as ex:
-        print(ex)
+        raise Exception(ex)
 
 
 def _create_internal_email(name: str, email: str, message: str) -> dict[str, any]:
