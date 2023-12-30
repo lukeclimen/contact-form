@@ -19,9 +19,9 @@ def contact_form(req: func.HttpRequest) -> func.HttpResponse:
         )
     try:
         internal_email_copy = _create_internal_email(name, email, message)
-        external_email_copy = _create_acknowledgement_email(name, email, message)
+        # external_email_copy = _create_acknowledgement_email(name, email, message)
         _send_email(internal_email_copy)
-        _send_email(external_email_copy)
+        # _send_email(external_email_copy)
         return func.HttpResponse(
             "Successfully submitted contact form.",
             status_code=200
