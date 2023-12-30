@@ -2,7 +2,7 @@ import os
 import datetime
 from typing import Any
 
-from azure.communication.email import EmailClient
+from azure.communication.email.aio import EmailClient
 from azure.core.credentials import AzureKeyCredential
 
 internal_email_address = os.getenv('INTERNAL_EMAIL_ADDRESS')
@@ -11,12 +11,11 @@ email_communication_endpoint = os.getenv('AZURE_COMMUNICATIONS_ENDPOINT')
 email_communication_key = os.getenv('AZURE_COMMUNICATIONS_KEY')
 
 
-def _send_email(email: dict[str, Any]) -> None:
+async def _send_email(email: dict[str, Any]) -> None:
     """Sends an email using Azure Communication Services"""
     try:
-        client = EmailClient(email_communication_endpoint, AzureKeyCredential(email_communication_key))
-        poller = client.begin_send(email)
-        result = poller.result()
+        async with EmailClient(email_communication_endpoint, AzureKeyCredential(email_communication_key)) as client:
+            await client.begin_send(email)
     except Exception as ex:
         raise Exception(ex)
 
